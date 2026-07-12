@@ -87,7 +87,7 @@ function GoodsShader() {
       const drawWidth = width * markScale
       const drawHeight = drawWidth / imageRatio
       const drawX = (width - drawWidth) / 2
-      const drawY = width > 900 ? -height * 0.23 : -height * 0.17
+      const drawY = width > 900 ? -height * 0.23 : height * 0.06
 
       maskContext.drawImage(image, drawX, drawY, drawWidth, drawHeight)
       maskData = maskContext.getImageData(0, 0, width, height)
@@ -162,7 +162,9 @@ function GoodsShader() {
         if (point.inGoods) {
           const reveal = attraction
           const pulseWave = (Math.sin(time * 0.0045 + point.x * 0.018 + point.y * 0.012) + 1) / 2
-          const pulseActivation = pointer.level * proximity
+          const pulseActivation = width <= 900
+            ? 0.32 + pointer.level * proximity
+            : pointer.level * proximity
           const pulseOffset = (pulseWave - 0.5) * 18 * pulseActivation
           const red = Math.round(132 + 68 * reveal + pulseOffset)
           const green = Math.round(129 + 65 * reveal + pulseOffset)

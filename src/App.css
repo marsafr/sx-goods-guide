@@ -1183,7 +1183,7 @@ a:focus-visible {
 
   .hero__content {
     width: min(520px, 100%);
-    margin-top: clamp(222px, 58vw, 282px);
+    margin-top: clamp(238px, 62vw, 300px);
     padding: 0 8px;
   }
 
@@ -1205,7 +1205,7 @@ a:focus-visible {
   }
 
   .heroMeta {
-    display: flex;
+    display: none;
     gap: 6px;
     justify-content: center;
     margin-bottom: 18px;
@@ -1255,6 +1255,59 @@ a:focus-visible {
 
   .principle {
     min-height: 0;
+    border-radius: 0 !important;
+  }
+
+  .principle::after {
+    content: 'i';
+    position: absolute;
+    top: 16px;
+    right: 18px;
+    display: grid;
+    width: 22px;
+    height: 22px;
+    place-items: center;
+    border: 1px solid var(--muted-soft);
+    border-radius: 50%;
+    color: var(--muted);
+    font-family: var(--sans);
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 1;
+    pointer-events: none;
+  }
+
+  .principle:focus-visible::after,
+  .principle:focus-within::after {
+    border-color: var(--paper);
+    color: var(--paper);
+  }
+
+  .principle__text {
+    position: static;
+    margin: 0 20px 18px;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    box-shadow: none;
+    opacity: 0;
+    max-height: 0;
+    overflow: hidden;
+    transform: none;
+    transition: opacity 0.2s ease, max-height 0.25s ease;
+  }
+
+  .principle:focus-within .principle__text {
+    max-height: 240px;
+    opacity: 1;
+  }
+
+  .result {
+    position: relative;
+    z-index: 2;
+    margin: 0;
+    box-shadow: 0 0 0 1px rgba(var(--result-rgb), 0.16);
   }
 
   .principle__summary {
