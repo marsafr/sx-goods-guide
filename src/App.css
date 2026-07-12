@@ -1271,7 +1271,7 @@ a:focus-visible {
     border-radius: 50%;
     color: var(--muted);
     font-family: var(--sans);
-    font-size: 14px;
+    font-size: 15px;
     font-style: normal;
     font-weight: 600;
     line-height: 1;
@@ -1312,6 +1312,17 @@ a:focus-visible {
     padding: 28px 56px 28px 28px;
   }
 
+  .principle__titleLine {
+    white-space: normal;
+  }
+
+  .principle {
+    width: 100%;
+    overflow: hidden;
+    cursor: pointer;
+    touch-action: manipulation;
+  }
+
   .quiz__layout {
     gap: 28px;
   }
@@ -1319,7 +1330,7 @@ a:focus-visible {
   .result {
     position: relative;
     z-index: 2;
-    margin: 8px 4px 0;
+    margin: 12px 8px 8px;
     box-shadow: 0 0 0 1px rgba(var(--result-rgb), 0.16);
   }
 
