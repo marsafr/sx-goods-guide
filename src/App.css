@@ -1224,7 +1224,7 @@ a:focus-visible {
 
   .hero__actions,
   .result__actions {
-    align-items: flex-start;
+    align-items: center;
     flex-direction: column;
   }
 
@@ -1299,14 +1299,27 @@ a:focus-visible {
   }
 
   .principle:focus-within .principle__text {
+    max-height: 0;
+    opacity: 0;
+  }
+
+  .principle_open .principle__text {
     max-height: 240px;
     opacity: 1;
+  }
+
+  .principle__summary {
+    padding: 28px 56px 28px 28px;
+  }
+
+  .quiz__layout {
+    gap: 28px;
   }
 
   .result {
     position: relative;
     z-index: 2;
-    margin: 0;
+    margin: 8px 4px 0;
     box-shadow: 0 0 0 1px rgba(var(--result-rgb), 0.16);
   }
 

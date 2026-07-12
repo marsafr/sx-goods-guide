@@ -486,6 +486,7 @@ function App() {
   const [screenDecision, setScreenDecision] = useState<ScreenDecision>('no')
   const [selectedIds, setSelectedIds] = useState<string[]>([])
   const [copied, setCopied] = useState(false)
+  const [openPrinciple, setOpenPrinciple] = useState<string | null>(null)
   const [openCriteriaSections, setOpenCriteriaSections] = useState<string[]>(
     criteriaSections[0]?.title ? [criteriaSections[0].title] : [],
   )
@@ -601,9 +602,13 @@ function App() {
         <div className="principles">
           {principles.map((principle) => (
             <article
-              className="principle glowTarget"
+              className={`principle glowTarget${openPrinciple === principle.titleLines.join(' ') ? ' principle_open' : ''}`}
               key={principle.titleLines.join(' ')}
               tabIndex={0}
+              onClick={() => {
+                const id = principle.titleLines.join(' ')
+                setOpenPrinciple((current) => (current === id ? null : id))
+              }}
             >
               <div className="principle__summary">
                 <span>
