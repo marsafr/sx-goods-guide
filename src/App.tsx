@@ -10,7 +10,7 @@ const keepShortWords = (text: string) =>
     '$1$2\u00A0',
   )
 
-type Stage = 'idea' | 'solution' | 'launch'
+type Stage = 'idea' | 'solution'
 type ResultType = 'rethink' | 'approval' | 'inform'
 type ScreenDecision = 'no' | 'not-checked' | 'justified'
 
@@ -367,13 +367,11 @@ const criteria: Criterion[] = [
 const stageLabels: Record<Stage, string> = {
   idea: 'Идея',
   solution: 'Решение',
-  launch: 'Перед запуском / тестом',
 }
 
 const stageDescriptions: Record<Stage, string> = {
   idea: 'Есть гипотеза, но нет детального решения.',
   solution: 'Есть сценарий, макеты или описание.',
-  launch: 'Только если чек-лист ниже покажет информирование.',
 }
 
 const screenDecisionLabels: Record<ScreenDecision, string> = {
@@ -443,10 +441,6 @@ const stageTodos: Record<Stage, string[]> = {
   ],
   solution: [
     'приложить макеты as is и наброски решения',
-    'написать в канал SX Goods',
-  ],
-  launch: [
-    'приложить финальные макеты и дату запуска',
     'написать в канал SX Goods',
   ],
 }
@@ -570,14 +564,9 @@ function App() {
           </h1>
           <p className="lead">
             {keepShortWords(
-              'Для команд Goods, которые меняют подачу. Ответьте на несколько вопросов — получите следующий шаг и список материалов.',
+              'Короткая проверка для команд Goods, которые меняют подачу объявления. Ответьте на несколько вопросов — чек-лист покажет, нужно ли согласование с SX Goods, достаточно ли информирования или решение стоит пересобрать до разработки.',
             )}
           </p>
-          <ul className="heroMeta">
-            <li>{keepShortWords('Что: изменения в подаче')}</li>
-            <li>{keepShortWords('Когда: до разработки или запуска')}</li>
-            <li>{keepShortWords('Результат: следующий шаг и список материалов')}</li>
-          </ul>
           <div className="hero__actions">
             <a className="button button_primary glowTarget" href="#quiz">
               Начать проверку
