@@ -163,7 +163,7 @@ function GoodsShader() {
           const reveal = attraction
           const pulseWave = (Math.sin(time * 0.0045 + point.x * 0.018 + point.y * 0.012) + 1) / 2
           const pulseActivation = width <= 900
-            ? 0.32 + pointer.level * proximity
+            ? 0.5 + pointer.level * proximity * 0.45
             : pointer.level * proximity
           const pulseOffset = (pulseWave - 0.5) * 18 * pulseActivation
           const red = Math.round(132 + 68 * reveal + pulseOffset)
@@ -171,7 +171,7 @@ function GoodsShader() {
           const blue = Math.round(122 + 60 * reveal + pulseOffset)
 
           context.fillStyle = `rgb(${red}, ${green}, ${blue})`
-          dotSize = goodsDotSize * (1 + 0.08 * pulseWave * pulseActivation)
+          dotSize = goodsDotSize * (1 + 0.12 * pulseWave * pulseActivation)
         } else {
           const red = Math.round(32 + 95 * attraction)
           const green = Math.round(31 + 92 * attraction)
@@ -600,17 +600,21 @@ function App() {
           </p>
         </div>
         <div className="principles">
-          {principles.map((principle) => (
-            <article
-              className={`principle glowTarget${openPrinciple === principle.titleLines.join(' ') ? ' principle_open' : ''}`}
-              key={principle.titleLines.join(' ')}
-              tabIndex={0}
-              onClick={() => {
-                const id = principle.titleLines.join(' ')
-                setOpenPrinciple((current) => (current === id ? null : id))
-              }}
-            >
-              <div className="principle__summary">
+          {principles.map((principle) => {
+            const id = principle.titleLines.join(' ')
+            const isOpen = openPrinciple === id
+
+            return (
+              <article
+                className={`principle glowTarget${isOpen ? ' principle_open' : ''}`}
+                key={id}
+              >
+                <button
+                  aria-expanded={isOpen}
+                  className="principle__summary"
+                  type="button"
+                  onClick={() => setOpenPrinciple((current) => (current === id ? null : id))}
+                >
                 <span>
                   {principle.titleLines.map((line) => (
                     <span className="principle__titleLine" key={line}>
@@ -618,10 +622,11 @@ function App() {
                     </span>
                   ))}
                 </span>
-              </div>
-              <p className="principle__text">{keepShortWords(principle.text)}</p>
-            </article>
-          ))}
+                </button>
+                <p className="principle__text">{keepShortWords(principle.text)}</p>
+              </article>
+            )
+          })}
         </div>
       </section>
 
