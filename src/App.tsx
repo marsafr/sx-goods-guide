@@ -132,7 +132,7 @@ function GoodsShader() {
 
       const radius = width > 900 ? 190 : 138
       const baseDotSize = width > 900 ? 1.45 : 1.25
-      const goodsDotSize = width > 900 ? 2.42 : 2.05
+      const goodsDotSize = width > 900 ? 2.66 : 2.05
 
       context.globalAlpha = 1
 
@@ -164,14 +164,14 @@ function GoodsShader() {
           const pulseWave = (Math.sin(time * 0.0045 + point.x * 0.018 + point.y * 0.012) + 1) / 2
           const pulseActivation = width <= 900
             ? 0.5 + pointer.level * proximity * 0.45
-            : pointer.level * proximity
-          const pulseOffset = (pulseWave - 0.5) * 18 * pulseActivation
+            : 0.28 + pointer.level * proximity * 0.55
+          const pulseOffset = (pulseWave - 0.5) * 16 * pulseActivation
           const red = Math.round(132 + 68 * reveal + pulseOffset)
           const green = Math.round(129 + 65 * reveal + pulseOffset)
           const blue = Math.round(122 + 60 * reveal + pulseOffset)
 
           context.fillStyle = `rgb(${red}, ${green}, ${blue})`
-          dotSize = goodsDotSize * (1 + 0.12 * pulseWave * pulseActivation)
+          dotSize = goodsDotSize * (1 + 0.1 * pulseWave * pulseActivation)
         } else {
           const red = Math.round(32 + 95 * attraction)
           const green = Math.round(31 + 92 * attraction)
