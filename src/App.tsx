@@ -437,11 +437,11 @@ const revokeReasons = [
 const stageTodos: Record<Stage, string[]> = {
   idea: [
     'приложить краткое описание и наброски, если есть',
-    'принести идею в канал SX Goods для сверки подхода',
+    'написать в канал SX Goods, чтобы обсудить подход',
   ],
   solution: [
     'приложить макеты as is и наброски решения',
-    'принести решение в канал SX Goods для сверки подхода',
+    'написать в канал SX Goods, чтобы обсудить решение',
   ],
 }
 
@@ -469,7 +469,7 @@ function getResultTitle(result: ResultType) {
   }
 
   if (result === 'approval') {
-    return 'Нужно выровнять решение с SX Goods'
+    return 'Нужно обсудить с SX Goods'
   }
 
   return 'Достаточно сообщить SX Goods'
@@ -559,12 +559,12 @@ function App() {
         <GoodsShader />
         <div className="hero__content glowTarget">
           <h1>
-            <span>Проверьте, как&nbsp;выровнять</span>
-            <span>изменение в&nbsp;подаче</span>
+            <span>Проверьте изменение</span>
+            <span>в&nbsp;подаче</span>
           </h1>
           <p className="lead">
             {keepShortWords(
-              'Короткая проверка для команд Goods, которые меняют подачу объявления. Ответьте на несколько вопросов — чек-лист покажет, нужно ли сверить подход с SX Goods, достаточно ли просто сообщить о запуске или решение стоит пересобрать до разработки.',
+              'Короткий чек-лист для команд Goods, которые меняют подачу объявления. Ответьте на несколько вопросов — получите следующий шаг: обсудить решение с SX Goods, просто сообщить о запуске или пересобрать идею до разработки.',
             )}
           </p>
           <div className="hero__actions">
@@ -622,7 +622,7 @@ function App() {
       <section className="section quiz glowTarget" id="quiz">
         <div className="section__heading">
           <p className="eyebrow">Раздел 2</p>
-          <h2>{keepShortWords('Интерактивный чек-лист выравнивания')}</h2>
+          <h2>{keepShortWords('Интерактивный чек-лист проверки')}</h2>
           <p>
             {keepShortWords(
               'Отметьте стадию задачи и планируемые изменения. Результат пересчитается автоматически.',
@@ -765,13 +765,13 @@ function App() {
             <h2>{keepShortWords(getResultTitle(result))}</h2>
             <p className="resultNote">
               {result === 'approval' && keepShortWords(
-                'До запуска сверяем подход с SX Goods.',
+                'До запуска обсудите решение с SX Goods.',
               )}
               {result === 'rethink' && keepShortWords(
                 'Пересоберите решение и пройдите проверку ещё раз.',
               )}
               {result === 'inform' && keepShortWords(
-                'Отдельная сверка не нужна — сообщите SX Goods о запуске.',
+                'Дополнительное обсуждение не нужно — сообщите SX Goods о запуске.',
               )}
             </p>
             <a className="result__revokeLink" href="#revoke">
@@ -822,7 +822,7 @@ function App() {
           <h2>{keepShortWords('Когда SX Goods может остановить уже запущенное изменение')}</h2>
           <p>
             {keepShortWords(
-              'Это не запасной путь вместо сверки подхода. Если чек-лист показывает выравнивание с SX Goods, команда приходит до запуска. Если изменение запустили без нужной сверки или после запуска появился риск для подачи, SX Goods может попросить остановить тест, откатить или отключить изменение.',
+              'Это не запасной путь вместо проверки до запуска. Если чек-лист показывает, что решение нужно обсудить с SX Goods, команда приходит до запуска. Если изменение запустили без нужного обсуждения или после запуска появился риск для подачи, SX Goods может попросить остановить тест, откатить или отключить изменение.',
             )}
           </p>
         </div>
@@ -854,7 +854,7 @@ function App() {
         </div>
 
         <div className="criteriaReference">
-          {['Стоп-фактор', 'Выравнивание', 'Информирование'].map((title) => {
+          {['Стоп-фактор', 'Обсудить с SX Goods', 'Информирование'].map((title) => {
             const items =
               title === 'Стоп-фактор'
                 ? [
@@ -865,7 +865,7 @@ function App() {
                     },
                   ]
                 : criteria.filter((criterion) => {
-                    if (title === 'Выравнивание') {
+                    if (title === 'Обсудить с SX Goods') {
                       return criterion.result === 'approval'
                     }
 
