@@ -12,7 +12,7 @@ const keepShortWords = (text: string) =>
 
 type Stage = 'idea' | 'solution'
 type ResultType = 'rethink' | 'approval' | 'inform'
-type ScreenDecision = 'no' | 'not-checked' | 'justified'
+type ScreenDecision = 'no' | 'temporary' | 'not-checked' | 'justified'
 
 type Criterion = {
   id: string
@@ -376,6 +376,7 @@ const stageDescriptions: Record<Stage, string> = {
 
 const screenDecisionLabels: Record<ScreenDecision, string> = {
   no: 'Нет, новый экран не нужен',
+  temporary: 'Экран появляется временно или один раз',
   'not-checked': 'Нужен новый экран, но альтернативы ещё не проверены',
   justified: 'Новый экран — единственный обоснованный вариант',
 }
