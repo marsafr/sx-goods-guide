@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import './App.css'
 
-const SX_GOODS_CHANNEL_URL = 'https://mm.avito.ru/avito/channels/sx-goods'
+const SX_GOODS_CHANNEL_URL = 'https://mt.avito.ru/avito/channels/sx-goods-public'
 const GOODS_MASK_URL = new URL('../Mask group.svg', import.meta.url).href
 
 const keepShortWords = (text: string) =>
