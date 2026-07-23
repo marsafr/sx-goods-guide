@@ -661,6 +661,23 @@ function App() {
               {keepShortWords('После запуска: когда SX Goods может остановить изменение')}
             </a>
 
+            <div className="result__actions">
+              <button
+                className="button button_primary messagePanel__copy glowTarget"
+                onClick={copySummary}
+              >
+                {copied ? 'Шаблон скопирован' : 'Скопировать шаблон сообщения'}
+              </button>
+              <a
+                className="button button_secondary glowTarget"
+                href={SX_GOODS_CHANNEL_URL}
+                rel="noreferrer"
+                target="_blank"
+              >
+                Перейти в канал SX Goods
+              </a>
+            </div>
+
             <h3>В шаблоне будет</h3>
             <ul className="messagePanel__contents">
               <li>{keepShortWords('задача или краткое описание изменения')}</li>
@@ -673,23 +690,6 @@ function App() {
                 )}
               </li>
             </ul>
-
-            <div className="result__actions">
-              <button
-                className="button button_primary messagePanel__copy glowTarget"
-                onClick={copySummary}
-              >
-                {copied ? 'Сообщение скопировано' : 'Скопировать сообщение для SX Goods'}
-              </button>
-              <a
-                className="button button_secondary glowTarget"
-                href={SX_GOODS_CHANNEL_URL}
-                rel="noreferrer"
-                target="_blank"
-              >
-                Перейти в канал SX Goods
-              </a>
-            </div>
           </aside>
         </div>
       </section>
