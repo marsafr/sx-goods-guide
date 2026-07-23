@@ -438,9 +438,6 @@ function App() {
             <a className="button button_primary glowTarget" href="#message-builder">
               {keepShortWords('Собрать сообщение')}
             </a>
-            <a className="button button_secondary glowTarget" href="#before-message">
-              {keepShortWords('Сначала свериться')}
-            </a>
           </div>
         </div>
       </section>
