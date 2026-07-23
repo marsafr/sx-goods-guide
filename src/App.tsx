@@ -656,7 +656,11 @@ function App() {
 
           <aside className="result messagePanel glowTarget">
             <p className="eyebrow">Готовое сообщение</p>
-            <h2>{keepShortWords('Шаблон для канала SX Goods')}</h2>
+            <h2 className="messagePanel__title">
+              Шаблон для
+              <br />
+              канала SX&nbsp;Goods
+            </h2>
             <p className="resultNote">
               {keepShortWords(
                 'Выбранные пункты уже добавлены. После копирования останется вставить ссылки и коротко описать изменение.',

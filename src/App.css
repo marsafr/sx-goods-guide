@@ -1080,6 +1080,11 @@ a:focus-visible {
   margin-bottom: clamp(24px, 3vh, 32px) !important;
 }
 
+.result .messagePanel__title {
+  font-size: clamp(27px, 3.7vh, 32px);
+  line-height: 1.08;
+}
+
 .messagePanel__copy {
   width: fit-content;
   max-width: 100%;
@@ -1090,6 +1095,7 @@ a:focus-visible {
   background: transparent;
   color: #caff67;
   font-size: 15px !important;
+  font-weight: 700;
 }
 
 .messagePanel__copy:hover {
@@ -1104,7 +1110,17 @@ a:focus-visible {
 
 .messagePanel .result__actions {
   width: 100%;
+  gap: 12px;
   justify-items: start;
+}
+
+.messagePanel .result__actions .button {
+  color: #fff;
+  font-weight: 700;
+}
+
+.messagePanel .result__actions .messagePanel__copy {
+  color: #caff67;
 }
 
 .messagePanel .result__actions .button_secondary {
