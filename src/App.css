@@ -1083,18 +1083,18 @@ a:focus-visible {
 .messagePanel__copy {
   width: fit-content;
   max-width: 100%;
-  min-height: 48px !important;
-  padding: 0 14px;
-  border: 1px solid rgba(174, 255, 46, 0.48);
-  border-radius: 10px;
-  background: rgba(174, 255, 46, 0.11);
+  min-height: 36px !important;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
   color: #caff67;
   font-size: 15px !important;
 }
 
 .messagePanel__copy:hover {
-  border-color: rgba(202, 255, 103, 0.82);
-  background: rgba(174, 255, 46, 0.18);
+  border-color: transparent;
+  background: transparent;
 }
 
 .messagePanel__copy::before,
