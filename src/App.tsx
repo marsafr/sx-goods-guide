@@ -10,15 +10,12 @@ const keepShortWords = (text: string) =>
     '$1$2\u00A0',
   )
 
-type Stage = 'idea' | 'solution'
-type ResultType = 'rethink' | 'approval' | 'inform'
-type ScreenDecision = 'no' | 'temporary' | 'not-checked' | 'justified'
+type ScreenDecision = 'no' | 'temporary' | 'replacement' | 'new'
 
 type Criterion = {
   id: string
   label: string
   group: string
-  result: ResultType
 }
 
 type GoodsPoint = {
@@ -248,236 +245,122 @@ const principles = [
 
 const criteria: Criterion[] = [
   {
-    id: 'new-block',
-    label: 'Новый блок или точка входа',
-    group: 'Сценарий',
-    result: 'approval',
+    id: 'step-order',
+    label: 'Меняется порядок шагов в подаче',
+    group: 'Экраны и шаги',
+  },
+  {
+    id: 'split-merge-steps',
+    label: 'Один шаг делится на несколько или несколько шагов объединяются',
+    group: 'Экраны и шаги',
   },
   {
     id: 'new-field',
-    label: 'Новое или изменённое поле',
-    group: 'Поля и данные',
-    result: 'approval',
+    label: 'Появляется новое поле или параметр',
+    group: 'Поля, параметры и зависимости',
   },
   {
-    id: 'required-field',
-    label: 'Новое обязательное поле',
-    group: 'Поля и данные',
-    result: 'approval',
-  },
-  {
-    id: 'order',
-    label: 'Изменение порядка полей или шагов',
-    group: 'Сценарий',
-    result: 'approval',
-  },
-  {
-    id: 'navigation',
-    label: 'Изменение основной кнопки, возврата назад, выхода или возврата в подачу',
-    group: 'Навигация',
-    result: 'approval',
-  },
-  {
-    id: 'validation',
-    label: 'Изменение проверки поля, ошибки или сохранения данных',
-    group: 'Правила',
-    result: 'approval',
-  },
-  {
-    id: 'ai',
-    label: 'Автозаполнение или AI-функция',
-    group: 'Автоматизация',
-    result: 'approval',
-  },
-  {
-    id: 'publish-rules',
-    label: 'Изменение правил публикации или черновика',
-    group: 'Правила',
-    result: 'approval',
-  },
-  {
-    id: 'downstream-data',
-    label:
-      'Изменение данных для категории, параметров, модерации, поиска, рекомендаций, контактов или заказов',
-    group: 'Поля и данные',
-    result: 'approval',
+    id: 'parameter-validation',
+    label: 'Появляется новая зависимость между параметрами с валидацией',
+    group: 'Поля, параметры и зависимости',
   },
   {
     id: 'new-component',
-    label: 'Новый компонент или новый способ взаимодействия',
-    group: 'Дизайн',
-    result: 'approval',
+    label: 'Нужен новый компонент',
+    group: 'Компоненты и интерфейс',
+  },
+  {
+    id: 'component-update',
+    label: 'Нужно доработать существующий компонент',
+    group: 'Компоненты и интерфейс',
   },
   {
     id: 'outside-system',
-    label: 'Элемент или визуальные значения вне дизайн-системы',
-    group: 'Дизайн',
-    result: 'approval',
+    label: 'Решение выходит за текущие гайдлайны, сильно выделяется или ломает привычный паттерн',
+    group: 'Компоненты и интерфейс',
   },
   {
-    id: 'multi-platform',
-    label: 'Решение для нескольких категорий или платформ',
-    group: 'Масштаб',
-    result: 'approval',
+    id: 'reusable-interaction',
+    label: 'Появляется новый способ взаимодействия: например, массовое редактирование, выбор параметров или подтверждение данных',
+    group: 'Компоненты и интерфейс',
+  },
+  {
+    id: 'multi-category',
+    label: 'Изменение касается нескольких категорий',
+    group: 'Категории, платформы и команды',
   },
   {
     id: 'platform-diff',
-    label: 'Разное поведение на iOS, Android, Web или MAV',
-    group: 'Масштаб',
-    result: 'approval',
-  },
-  {
-    id: 'sensitive',
-    label: 'Изменение связано с деньгами, приватностью, безопасностью, законом или модерацией',
-    group: 'Риски',
-    result: 'approval',
+    label: 'Поведение отличается на iOS, Android, Web или MAV',
+    group: 'Категории, платформы и команды',
   },
   {
     id: 'hard-disable',
-    label: 'Для отключения нужен выпуск приложения, перенос данных или участие нескольких команд',
-    group: 'Запуск',
-    result: 'approval',
+    label: 'Для запуска или отключения нужно участие нескольких команд',
+    group: 'Категории, платформы и команды',
   },
   {
-    id: 'copy-only',
-    label: 'Меняется только текст, иллюстрация, отступ или расположение необязательного элемента',
-    group: 'Информирование',
-    result: 'inform',
-  },
-  {
-    id: 'existing-components',
-    label: 'Используются существующие компоненты дизайн-системы',
-    group: 'Информирование',
-    result: 'inform',
-  },
-  {
-    id: 'same-behavior',
-    label: 'Поведение одинаково на затронутых платформах',
-    group: 'Информирование',
-    result: 'inform',
-  },
-  {
-    id: 'easy-disable',
-    label: 'Фича отключается существующим способом',
-    group: 'Информирование',
-    result: 'inform',
+    id: 'sensitive',
+    label: 'Изменение связано с безопасностью, приватностью или модерацией',
+    group: 'Категории, платформы и команды',
   },
 ]
 
-const stageLabels: Record<Stage, string> = {
-  idea: 'Идея',
-  solution: 'Решение',
-}
-
-const stageDescriptions: Record<Stage, string> = {
-  idea: 'Есть гипотеза, но нет детального решения.',
-  solution: 'Есть сценарий, макеты или описание.',
-}
-
 const screenDecisionLabels: Record<ScreenDecision, string> = {
   no: 'Нет, новый экран не нужен',
-  temporary: 'Экран появляется временно или один раз',
-  'not-checked': 'Нужен новый экран, но альтернативы ещё не проверены',
-  justified: 'Новый экран — единственный обоснованный вариант',
+  temporary:
+    'Экран появляется один раз или временно: например, онбординг, fake door, промо или разовое подтверждение',
+  replacement: 'Один экран меняется на другой',
+  new: 'Добавляется новый постоянный экран',
 }
 
 const criteriaSections = [
   {
-    title: 'Сценарий, шаги и основные кнопки',
-    description:
-      'Новые блоки, порядок шагов, вход, выход, возврат и главное действие.',
-    ids: ['new-block', 'order', 'navigation'],
+    title: 'Экраны и шаги',
+    description: 'Порядок, разделение и объединение этапов подачи.',
+    ids: ['step-order', 'split-merge-steps'],
   },
   {
-    title: 'Поля, ввод и связанные данные',
-    description:
-      'Поля, обязательность, автозаполнение, проверки, сохранение и передача данных.',
-    ids: ['new-field', 'required-field', 'ai', 'validation', 'downstream-data'],
+    title: 'Поля, параметры и зависимости',
+    description: 'Новые данные в подаче и связи между ними.',
+    ids: ['new-field', 'parameter-validation'],
   },
   {
-    title: 'Новые компоненты и дизайн-система',
-    description:
-      'Новые способы взаимодействия и элементы вне дизайн-системы.',
-    ids: ['new-component', 'outside-system'],
+    title: 'Компоненты и интерфейс',
+    description: 'Новые и доработанные компоненты, дизайн-система и повторяемые паттерны.',
+    ids: ['new-component', 'component-update', 'outside-system', 'reusable-interaction'],
   },
   {
-    title: 'Публикация, платформы и риски',
-    description:
-      'Черновик и публикация, различия платформ, чувствительные изменения и способ отключения.',
-    ids: [
-      'publish-rules',
-      'multi-platform',
-      'platform-diff',
-      'sensitive',
-      'hard-disable',
-    ],
-  },
-  {
-    title: 'Только текст, визуал и готовые компоненты',
-    description:
-      'Без нового сценария: готовые компоненты, одинаковое поведение и штатное отключение.',
-    ids: ['copy-only', 'existing-components', 'same-behavior', 'easy-disable'],
+    title: 'Категории, платформы и команды',
+    description: 'Несколько категорий, платформенные отличия, зависимые команды и чувствительные зоны.',
+    ids: ['multi-category', 'platform-diff', 'hard-disable', 'sensitive'],
   },
 ]
 
-const approvalAttachments = [
-  'что планируется изменить',
-  'ссылка на макеты as is',
-  'наброски, если есть',
-  'подтверждающие данные',
+const rethinkCases = [
+  'Новый постоянный экран выбран первым решением, а существующие шаги и компоненты ещё не проверены.',
+  'Появляется обязательное действие или поле, но непонятно, как оно помогает опубликовать объявление или продать товар.',
+  'Решение добавляет шаги или решения для пользователя, но польза для продавца и бизнеса пока не подтверждена.',
+]
+
+const noMessageCases = [
+  'Меняется только текст или иллюстрация без изменения смысла и поведения.',
+  'Меняется отступ или расположение необязательного элемента.',
+  'Используется готовый компонент без доработки и изменения сценария.',
+  'Исправляется локальная визуальная ошибка, которая не влияет на другие категории или платформы.',
 ]
 
 const revokeReasons = [
   'пользователь не может закончить подачу или теряет данные',
   'возникает непреднамеренное платное действие или раскрытие данных',
-  'нарушены требования закона, безопасности или модерации',
+  'нарушены требования безопасности, приватности или модерации',
   'фича вышла за заявленную аудиторию или платформу',
   'сломаны правила публикации, черновика, модерации или передачи данных',
+  'в подаче появились новые экраны, которые не обсуждались до запуска',
+  'статистически значимо выросло время прохождения подачи',
 ]
 
-const stageTodos: Record<Stage, string[]> = {
-  idea: [
-    'приложить краткое описание и наброски, если есть',
-    'написать в канал SX Goods, чтобы обсудить подход',
-  ],
-  solution: [
-    'приложить макеты as is и наброски решения',
-    'написать в канал SX Goods, чтобы обсудить решение',
-  ],
-}
-
-function getResult(
-  selectedCriteria: Criterion[],
-  screenDecision: ScreenDecision,
-): ResultType {
-  if (screenDecision === 'not-checked') {
-    return 'rethink'
-  }
-
-  if (
-    screenDecision === 'justified' ||
-    selectedCriteria.some((criterion) => criterion.result === 'approval')
-  ) {
-    return 'approval'
-  }
-
-  return 'inform'
-}
-
-function getResultTitle(result: ResultType) {
-  if (result === 'rethink') {
-    return 'Решение нужно переосмыслить'
-  }
-
-  if (result === 'approval') {
-    return 'Нужно обсудить с SX Goods'
-  }
-
-  return 'Достаточно сообщить SX Goods'
-}
-
 function App() {
-  const [stage, setStage] = useState<Stage>('idea')
   const [screenDecision, setScreenDecision] = useState<ScreenDecision>('no')
   const [selectedIds, setSelectedIds] = useState<string[]>([])
   const [copied, setCopied] = useState(false)
@@ -491,48 +374,26 @@ function App() {
     [selectedIds],
   )
 
-  const result = getResult(selectedCriteria, screenDecision)
-
-  const resultTodos = useMemo(() => {
-    if (result === 'rethink') {
-      return [
-        'не добавлять новый экран первым решением',
-        'проверить существующие шаги, блоки или компоненты',
-        'вернуться к чек-листу после переосмысления',
-      ]
-    }
-
-    if (result === 'approval') {
-      return [...stageTodos[stage]]
-    }
-
-    return [
-      'написать короткое сообщение до запуска',
-      'приложить макет/задачу, категорию, платформу и дату',
-    ]
-  }, [result, stage])
+  const screenDecisionCopy: Record<ScreenDecision, string> = {
+    no: 'не нужен',
+    temporary:
+      'появляется один раз или временно: онбординг, fake door, промо или разовое подтверждение',
+    replacement: 'один экран меняется на другой',
+    new: 'добавляется новый постоянный экран',
+  }
 
   const summaryText = [
-    `Результат: ${getResultTitle(result)}`,
-    `Этап: ${stageLabels[stage]}`,
+    'Задача / что меняем: [ссылка на задачу или краткое описание изменения]',
+    'Платформа: [iOS / Android / Web / MAV]',
+    'Ссылка на макеты (as is и наброски, если есть): [вставьте ссылку]',
+    'Подтверждающие данные: [ссылка или «данных пока нет»]',
     '',
-    'Новый экран:',
-    `— ${screenDecisionLabels[screenDecision]}`,
+    `Новый экран: ${screenDecisionCopy[screenDecision]}`,
     '',
-    'Отмеченные изменения:',
+    'Что меняется в подаче:',
     ...(selectedCriteria.length
       ? selectedCriteria.map((criterion) => `— ${criterion.label}`)
-      : ['— изменений не выбрано']),
-    '',
-    ...(result === 'approval'
-      ? [
-          'Что приложить:',
-          ...approvalAttachments.map((item) => `— ${item}`),
-          '',
-        ]
-      : []),
-    'Что сделать:',
-    ...resultTodos.map((todo) => `□ ${todo}`),
+      : ['— дополнительные изменения не отмечены']),
   ].join('\n')
 
   const toggleCriterion = (id: string) => {
@@ -560,20 +421,20 @@ function App() {
         <GoodsShader />
         <div className="hero__content glowTarget">
           <h1>
-            <span>Проверьте изменение</span>
-            <span>в&nbsp;подаче</span>
+            <span>Подготовьте изменение</span>
+            <span>в&nbsp;подаче к&nbsp;обсуждению</span>
           </h1>
           <p className="lead">
             {keepShortWords(
-              'Для команд Goods, которые меняют подачу объявления. Чек-лист помогает сохранять подачу понятной и единой для разных категорий: быстро проверить идею, не добавить лишние шаги и понять следующий шаг.',
+              'Для команд Goods, которые обновляют подачу объявления. Здесь можно свериться с общими принципами, понять, когда написать SX Goods, и за пару минут собрать готовое сообщение в канал.',
             )}
           </p>
           <div className="hero__actions">
-            <a className="button button_primary glowTarget" href="#quiz">
-              Начать проверку
+            <a className="button button_primary glowTarget" href="#message-builder">
+              Собрать сообщение
             </a>
-            <a className="button button_secondary glowTarget" href="#criteria">
-              Все критерии
+            <a className="button button_secondary glowTarget" href="#before-message">
+              Сначала свериться
             </a>
           </div>
         </div>
@@ -620,13 +481,66 @@ function App() {
         </div>
       </section>
 
-      <section className="section quiz glowTarget" id="quiz">
+      <section className="section guidanceSection glowTarget" id="before-message">
         <div className="section__heading">
-          <p className="eyebrow">Раздел 2</p>
-          <h2>{keepShortWords('Интерактивный чек-лист проверки')}</h2>
+          <p className="eyebrow">Перед сообщением</p>
+          <h2>{keepShortWords('Сначала проверьте два исключения')}</h2>
           <p>
             {keepShortWords(
-              'Отметьте стадию задачи и планируемые изменения. Результат пересчитается автоматически.',
+              'Они помогают не тратить время на оформление запроса, если решение ещё рано обсуждать или изменение не затрагивает общий сценарий подачи.',
+            )}
+          </p>
+        </div>
+
+        <div className="guidanceGrid">
+          <article className="guidanceCard guidanceCard_rethink">
+            <h3>{keepShortWords('Когда решение стоит сначала переосмыслить')}</h3>
+            <p>
+              {keepShortWords(
+                'Не обязательно делать это в одиночку: можно прийти в SX Goods за помощью с вариантами решения.',
+              )}
+            </p>
+            <ul>
+              {rethinkCases.map((item) => (
+                <li key={item}>{keepShortWords(item)}</li>
+              ))}
+            </ul>
+          </article>
+
+          <article className="guidanceCard guidanceCard_skip">
+            <h3>{keepShortWords('Когда SX Goods можно не писать')}</h3>
+            <p>
+              {keepShortWords(
+                'Если изменение не меняет поля, шаги, компоненты или поведение подачи и подходит под один из примеров ниже.',
+              )}
+            </p>
+            <ul>
+              {noMessageCases.map((item) => (
+                <li key={item}>{keepShortWords(item)}</li>
+              ))}
+            </ul>
+          </article>
+        </div>
+
+        <div className="guidanceNext">
+          <p>
+            {keepShortWords(
+              'Во всех остальных случаях отметьте изменения в чек-листе — он соберёт короткий шаблон сообщения для канала SX Goods.',
+            )}
+          </p>
+          <a className="button button_primary" href="#message-builder">
+            Перейти к шаблону
+          </a>
+        </div>
+      </section>
+
+      <section className="section quiz glowTarget" id="message-builder">
+        <div className="section__heading">
+          <p className="eyebrow">Шаблон сообщения</p>
+          <h2>{keepShortWords('Соберите сообщение для SX Goods')}</h2>
+          <p>
+            {keepShortWords(
+              'Это не квиз и не проверка решения. Отметьте факты об изменении — выбранные пункты автоматически попадут в короткий шаблон для канала.',
             )}
           </p>
         </div>
@@ -634,33 +548,7 @@ function App() {
         <div className="quiz__layout">
           <div className="quiz__form">
             <fieldset className="panel">
-              <legend>1. На какой стадии задача?</legend>
-              <div className="segmented">
-                {Object.entries(stageLabels).map(([stageId, label]) => (
-                  <label
-                    className={
-                      stage === stageId
-                        ? 'segmented__item segmented__item_active glowTarget'
-                        : 'segmented__item glowTarget'
-                    }
-                    key={stageId}
-                  >
-                    <input
-                      checked={stage === stageId}
-                      name="stage"
-                      type="radio"
-                      value={stageId}
-                      onChange={() => setStage(stageId as Stage)}
-                    />
-                    <span>{keepShortWords(label)}</span>
-                    <small>{keepShortWords(stageDescriptions[stageId as Stage])}</small>
-                  </label>
-                ))}
-              </div>
-            </fieldset>
-
-            <fieldset className="panel">
-              <legend>2. Нужен ли новый экран?</legend>
+              <legend>1. Что происходит с экранами?</legend>
               <div className="screenOptions">
                 {Object.entries(screenDecisionLabels).map(([decision, label]) => (
                   <label
@@ -687,7 +575,7 @@ function App() {
             </fieldset>
 
             <fieldset className="panel panel_criteria">
-              <legend>3. Что ещё планируется изменить?</legend>
+              <legend>2. Что ещё меняется в подаче?</legend>
               <div className="criteriaSections">
                 {criteriaSections.map((section, index) => (
                   <div
@@ -761,48 +649,37 @@ function App() {
             </fieldset>
           </div>
 
-          <aside className={`result result_${result} glowTarget`}>
-            <p className="eyebrow">Результат</p>
-            <h2>{keepShortWords(getResultTitle(result))}</h2>
+          <aside className="result messagePanel glowTarget">
+            <p className="eyebrow">Готовое сообщение</p>
+            <h2>{keepShortWords('Шаблон для канала SX Goods')}</h2>
             <p className="resultNote">
-              {result === 'approval' && keepShortWords(
-                'До запуска обсудите решение с SX Goods.',
-              )}
-              {result === 'rethink' && keepShortWords(
-                'Пересоберите решение и пройдите проверку ещё раз.',
-              )}
-              {result === 'inform' && keepShortWords(
-                'Дополнительное обсуждение не нужно — сообщите SX Goods о запуске.',
+              {keepShortWords(
+                'Выбранные пункты уже добавлены. После копирования останется вставить ссылки и коротко описать изменение.',
               )}
             </p>
             <a className="result__revokeLink" href="#revoke">
               {keepShortWords('После запуска: когда SX Goods может остановить изменение')}
             </a>
 
-            {result === 'approval' && (
-              <>
-                <h3>Что приложить</h3>
-                <ul>
-                  {approvalAttachments.map((item) => (
-                    <li key={item}>{keepShortWords(item)}</li>
-                  ))}
-                </ul>
-              </>
-            )}
-
-            <h3>Что сделать</h3>
-            <ul className="todo">
-              {resultTodos.map((todo) => (
-                <li key={todo}>{keepShortWords(todo)}</li>
-              ))}
+            <h3>В шаблоне будет</h3>
+            <ul className="messagePanel__contents">
+              <li>{keepShortWords('задача или краткое описание изменения')}</li>
+              <li>{keepShortWords('платформа')}</li>
+              <li>{keepShortWords('одна ссылка на as is и наброски, если есть')}</li>
+              <li>{keepShortWords('подтверждающие данные или отметка, что их пока нет')}</li>
+              <li>
+                {keepShortWords(
+                  `${screenDecisionLabels[screenDecision]}; отмечено изменений: ${selectedCriteria.length}`,
+                )}
+              </li>
             </ul>
 
             <div className="result__actions">
               <button
-                className="button button_primary glowTarget"
+                className="button button_primary messagePanel__copy glowTarget"
                 onClick={copySummary}
               >
-                {copied ? 'Скопировано' : 'Скопировать todo-list'}
+                {copied ? 'Сообщение скопировано' : 'Скопировать сообщение для SX Goods'}
               </button>
               <a
                 className="button button_secondary glowTarget"
@@ -823,7 +700,7 @@ function App() {
           <h2>{keepShortWords('Когда SX Goods может остановить уже запущенное изменение')}</h2>
           <p>
             {keepShortWords(
-              'Это не запасной путь вместо проверки до запуска. Если чек-лист показывает, что решение нужно обсудить с SX Goods, команда приходит до запуска. Если изменение запустили без нужного обсуждения или после запуска появился риск для подачи, SX Goods может попросить остановить тест, откатить или отключить изменение.',
+              'Это не запасной путь вместо обсуждения. Если изменение затрагивает общий сценарий подачи, команда приходит в SX Goods до разработки или запуска. Если обновление запустили без обсуждения или после запуска появился риск для подачи, SX Goods может попросить остановить тест, откатить или отключить изменение.',
             )}
           </p>
         </div>
@@ -841,50 +718,6 @@ function App() {
             </li>
           ))}
         </ul>
-      </section>
-
-      <section className="section glowTarget" id="criteria">
-        <div className="section__heading">
-          <p className="eyebrow">Справочник</p>
-          <h2>{keepShortWords('Все критерии целиком')}</h2>
-          <p>
-            {keepShortWords(
-              'Этот блок нужен, если хочется проверить правила без прохождения квиза.',
-            )}
-          </p>
-        </div>
-
-        <div className="criteriaReference">
-          {['Стоп-фактор', 'Обсудить с SX Goods', 'Информирование'].map((title) => {
-            const items =
-              title === 'Стоп-фактор'
-                ? [
-                    {
-                      id: 'new-screen-not-checked',
-                      label:
-                        'Нужен новый экран, но ещё не проверены варианты через существующие шаги, блоки или компоненты',
-                    },
-                  ]
-                : criteria.filter((criterion) => {
-                    if (title === 'Обсудить с SX Goods') {
-                      return criterion.result === 'approval'
-                    }
-
-                    return criterion.result === 'inform'
-                  })
-
-            return (
-              <article className="referenceCard" key={title}>
-                <h3>{keepShortWords(title)}</h3>
-                <ul>
-                  {items.map((item) => (
-                    <li key={item.id}>{keepShortWords(item.label)}</li>
-                  ))}
-                </ul>
-              </article>
-            )
-          })}
-        </div>
       </section>
 
     </main>
