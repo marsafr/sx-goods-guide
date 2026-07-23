@@ -4,11 +4,17 @@ import './App.css'
 const SX_GOODS_CHANNEL_URL = 'https://mt.avito.ru/avito/channels/sx-goods-public'
 const GOODS_MASK_URL = new URL('../Mask group.svg', import.meta.url).href
 
-const keepShortWords = (text: string) =>
-  text.replace(
-    /(^|[\s(«„])((?:а|в|во|и|к|ко|о|об|от|до|за|из|на|по|но|не|ни|же|ли|бы|с|со|у|для|без|при|под|над|про|как|что|или|если|SX))\s+/giu,
-    '$1$2\u00A0',
+const keepShortWords = (text: string) => {
+  const shortWords =
+    'а|в|во|и|к|ко|о|об|от|до|за|из|на|по|но|не|ни|же|ли|бы|с|со|у|для|без|при|под|над|про|как|что|или|если|перед|после|через|между|вместо|внутри|вне|около|SX'
+  const pattern = new RegExp(
+    `(?<![\\p{L}\\p{N}])(?:${shortWords})[ \\t\\r\\n\\f]+`,
+    'giu',
   )
+  return text.replace(pattern, (match) =>
+    match.replace(/[ \t\r\n\f]+$/, '\u00A0'),
+  )
+}
 
 type ScreenDecision = 'no' | 'temporary' | 'replacement' | 'new'
 
@@ -339,7 +345,6 @@ const criteriaSections = [
 
 const rethinkCases = [
   'Новый постоянный экран выбран первым решением, а существующие шаги и компоненты ещё не проверены.',
-  'Появляется обязательное действие или поле, но непонятно, как оно помогает опубликовать объявление или продать товар.',
   'Решение добавляет шаги или решения для пользователя, но польза для продавца и бизнеса пока не подтверждена.',
 ]
 
@@ -431,10 +436,10 @@ function App() {
           </p>
           <div className="hero__actions">
             <a className="button button_primary glowTarget" href="#message-builder">
-              Собрать сообщение
+              {keepShortWords('Собрать сообщение')}
             </a>
             <a className="button button_secondary glowTarget" href="#before-message">
-              Сначала свериться
+              {keepShortWords('Сначала свериться')}
             </a>
           </div>
         </div>
@@ -529,7 +534,7 @@ function App() {
             )}
           </p>
           <a className="button button_primary" href="#message-builder">
-            Перейти к шаблону
+            {keepShortWords('Перейти к шаблону')}
           </a>
         </div>
       </section>
@@ -548,7 +553,7 @@ function App() {
         <div className="quiz__layout">
           <div className="quiz__form">
             <fieldset className="panel">
-              <legend>1. Что происходит с экранами?</legend>
+              <legend>{keepShortWords('1. Что происходит с экранами?')}</legend>
               <div className="screenOptions">
                 {Object.entries(screenDecisionLabels).map(([decision, label]) => (
                   <label
@@ -575,7 +580,7 @@ function App() {
             </fieldset>
 
             <fieldset className="panel panel_criteria">
-              <legend>2. Что ещё меняется в подаче?</legend>
+              <legend>{keepShortWords('2. Что ещё меняется в подаче?')}</legend>
               <div className="criteriaSections">
                 {criteriaSections.map((section, index) => (
                   <div
@@ -666,7 +671,9 @@ function App() {
                 className="button button_primary messagePanel__copy glowTarget"
                 onClick={copySummary}
               >
-                {copied ? 'Шаблон скопирован' : 'Скопировать шаблон сообщения'}
+                {keepShortWords(
+                  copied ? 'Шаблон скопирован' : 'Скопировать шаблон',
+                )}
               </button>
               <a
                 className="button button_secondary glowTarget"
@@ -674,21 +681,16 @@ function App() {
                 rel="noreferrer"
                 target="_blank"
               >
-                Перейти в канал SX Goods
+                {keepShortWords('Перейти в канал SX Goods')}
               </a>
             </div>
 
-            <h3>В шаблоне будет</h3>
+            <h3>{keepShortWords('В шаблоне будет')}</h3>
             <ul className="messagePanel__contents">
               <li>{keepShortWords('задача или краткое описание изменения')}</li>
               <li>{keepShortWords('платформа')}</li>
               <li>{keepShortWords('одна ссылка на as is и наброски, если есть')}</li>
               <li>{keepShortWords('подтверждающие данные или отметка, что их пока нет')}</li>
-              <li>
-                {keepShortWords(
-                  `${screenDecisionLabels[screenDecision]}; отмечено изменений: ${selectedCriteria.length}`,
-                )}
-              </li>
             </ul>
           </aside>
         </div>
