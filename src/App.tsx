@@ -670,6 +670,14 @@ function App() {
               {keepShortWords('После запуска: когда SX Goods может остановить изменение')}
             </a>
 
+            <h3>{keepShortWords('В шаблоне будет')}</h3>
+            <ul className="messagePanel__contents">
+              <li>{keepShortWords('задача или краткое описание изменения')}</li>
+              <li>{keepShortWords('платформа')}</li>
+              <li>{keepShortWords('одна ссылка на as is и наброски, если есть')}</li>
+              <li>{keepShortWords('подтверждающие данные или отметка, что их пока нет')}</li>
+            </ul>
+
             <div className="result__actions">
               <button
                 className="button button_primary messagePanel__copy glowTarget"
@@ -688,14 +696,6 @@ function App() {
                 {keepShortWords('Перейти в канал SX Goods')}
               </a>
             </div>
-
-            <h3>{keepShortWords('В шаблоне будет')}</h3>
-            <ul className="messagePanel__contents">
-              <li>{keepShortWords('задача или краткое описание изменения')}</li>
-              <li>{keepShortWords('платформа')}</li>
-              <li>{keepShortWords('одна ссылка на as is и наброски, если есть')}</li>
-              <li>{keepShortWords('подтверждающие данные или отметка, что их пока нет')}</li>
-            </ul>
           </aside>
         </div>
       </section>

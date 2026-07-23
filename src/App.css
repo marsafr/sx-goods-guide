@@ -1094,7 +1094,7 @@ a:focus-visible {
   border-radius: 0;
   background: transparent;
   color: #caff67;
-  font-size: 15px !important;
+  font-size: 16px !important;
   font-weight: 700;
 }
 
@@ -1116,6 +1116,7 @@ a:focus-visible {
 
 .messagePanel .result__actions .button {
   color: #fff;
+  font-size: 16px;
   font-weight: 700;
 }
 
