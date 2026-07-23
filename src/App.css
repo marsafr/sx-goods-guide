@@ -1081,7 +1081,8 @@ a:focus-visible {
 }
 
 .messagePanel__copy {
-  width: 100%;
+  width: fit-content;
+  max-width: 100%;
   min-height: 48px !important;
   padding: 0 14px;
   border: 1px solid rgba(174, 255, 46, 0.48);
@@ -1103,10 +1104,11 @@ a:focus-visible {
 
 .messagePanel .result__actions {
   width: 100%;
+  justify-items: start;
 }
 
 .messagePanel .result__actions .button_secondary {
-  justify-self: center;
+  justify-self: start;
 }
 
 .result::before {
@@ -1540,9 +1542,10 @@ a:focus-visible {
   }
 
   .messagePanel__copy {
-    width: 100%;
+    width: fit-content;
+    max-width: 100%;
     white-space: normal;
-    text-align: center;
+    text-align: left;
   }
 
   .principle__summary {
